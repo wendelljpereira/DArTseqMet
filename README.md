@@ -7,3 +7,14 @@ The method described here was first described in the paper ["A cost-effective ap
 ## Installation
 
 This computational protocol is designed to be executed using the [Snakemake workflow management system](https://snakemake.readthedocs.io/en/stable/).
+
+The recommended method for [installing Snakemake](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html) is by using Conda/Mamba, as shown below:
+
+```sh
+conda install -n base -c conda-forge mamba
+
+# Activates conda and then install snakemake
+conda activate base
+mamba create -c conda-forge -c bioconda -n snakemake snakemake
+
+```
