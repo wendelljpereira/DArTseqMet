@@ -4,76 +4,76 @@ rule all:
     input:
         ## Add the required files here.
     output:
-        ## barcode_removing
-        expand("{fastq}.without_barcodes_and_adapters.fq", fastq=config["fastq"])
-        ## fastqc
-        expand("fastqc_after_trimming/{fastq}.without_barcodes_and_adapters_fastqc.html", fastq=config["fastq"]),
-        expand("fastqc_after_trimming/{fastq}.without_barcodes_and_adapters_fastqc.zip", fastq=config["fastq"])
-        ## combine_samples
-        expand("{combine_samples}", combine_samples=config["combine_samples"])
-        ## mapping
-        expand("mapping/{mapping}.fq", mapping=config["mapping"]["fastq"]),
-        expand("mapping/{mapping}.sam", mapping=config["mapping"]["sam"])
-        ## extract_sing_mapping
-        expand("mapping/{mapping}.single_map.sam", mapping=config["mapping"]["sam"])
-        ## sam_to_bam
-        expand("mapping/{mapping}.single_map.bam", mapping=config["mapping"]["sam"])
-        ## merge_bam
-        expand("mapping/{combine_bam}", combine_bam=config["combine_bam"])
-        ## bam_to_bed
-        expand("bed_files/{bed_name}", bed_name=config["bam_to_bed"]["bed_name"])
-        ## find_methylation_site_position    
-        "msp_pst_sites_positions_sorted.bed"
-        ## sample_site_definition
-        expand("sample_sites_generation/{sample_site_definition}", sample_site_definition=config["sample_site_definition"])
-        ## find_unique_pos   
-        expand("multiple_bed/{find_unique_pos}", find_unique_pos=config["find_unique_pos"])[0:2],
-        expand("bed_files/{find_unique_pos}", find_unique_pos=config["find_unique_pos"])[2]
-        ## trimmomatic_to_counts
-        expand("{fastq}.without_barc_and_adapt_plus_qc.fq", fastq=config["fastq"])        
-        ## fastqc_to_counts
-        expand("fastqc_after_trimming/{fastq}.without_barc_and_adapt_plus_qc_fastqc.html", fastq=config["fastq"]),
-        expand("fastqc_after_trimming/{fastq}.without_barc_and_adapt_plus_qc_fastqc.zip", fastq=config["fastq"])
-        ## mapping_to_counts
-        expand("mapping/{fastq}_{map}.fq", fastq=config["fastq"], map=config["mapping"]["fastq"]),
-        expand("mapping/{fastq}{sam_samples}.sam", fastq=config["fastq"], sam_samples=config["mapping"]["sam_samples"])        
-        ## extract_sing_mapping_to_counts
-        expand("mapping/{fastq}{sam_samples}.single_map.sam", fastq=config["fastq"], sam_samples=config["mapping"]["sam_samples"])
-        ## sam_to_bam_to_counts
-        expand("mapping/{fastq}{sam_samples}.single_map.bam", fastq=config["fastq"], sam_samples=config["mapping"]["sam_samples"]) 
-        ## merge_bam_to_counts
-        expand("mapping/{fastq}_combined.bam", fastq=config["fastq"])
-        ## featureCounts_input
-        expand("bed_files/{find_unique_pos}", find_unique_pos=config["featurecounts"])[0]        
-        ## featureCounts
-        expand("counts/{find_unique_pos}.tst", find_unique_pos=config["featurecounts"])[1]
-        ## counts_correction        
-        expand("bed_files/{counts_correction}", counts_correction=config["counts_correction"])[0],
-        expand("counts/{counts_correction}", counts_correction=config["counts_correction"])[1]
-        ## marks_with_msp_bigger_than_0
-        expand("true_sites/{output_bigger_than_0}.txt", output_bigger_than_0=config["marks_with_msp_outputs"])
-        ## determines_sampled_site_position        
-        expand("position_of_the_sampled_sites/{methylatio_site_output}.bed", methylatio_site_output=config["detemines_sampled_site_position"])[0],
-        expand("position_of_the_sampled_sites/{methylatio_site_output}.bed", methylatio_site_output=config["detemines_sampled_site_position"])[1],
-        expand("{methylatio_site_output}.csv", methylatio_site_output=config["detemines_sampled_site_position"])[2]
-        ## detemines_sampled_site_position_part_2        
-        expand("position_of_the_sampled_sites/{methylatio_site_output}_merged.tst", methylatio_site_output=config["detemines_sampled_site_position"])[1],
-        expand("position_of_the_sampled_sites/{methylatio_site_output}_merged.bed", methylatio_site_output=config["detemines_sampled_site_position"])[1]
-        ## intersect_marks
-        expand("{intersect_params}_intersect_marks.txt", intersect_params=config["intersect_marks_params"]["prefix"])
-        ## edgeR_with_DArTCounts       
-        expand("{prefix_edgeR}{groups}_DE_stats.txt", prefix_edgeR=config["edgeR_with_DArTCounts_params"]["prefix"], groups=config["edgeR_with_DArTCounts_params"]["groups"]),
-        expand("{prefix_edgeR}{groups}_DE_marks.txt", prefix_edgeR=config["edgeR_with_DArTCounts_params"]["prefix"], groups=config["edgeR_with_DArTCounts_params"]["groups"]),
-        expand("{prefix_edgeR}{groups}_dispersions.txt", prefix_edgeR=config["edgeR_with_DArTCounts_params"]["prefix"], groups=config["edgeR_with_DArTCounts_params"]["groups"]),
-        expand("BRASUZ1_{tissue}_msp_bigger_than_threshold.txt", tissue=config["tissues_g4"])
-        ## DEseq2_with_DArTCounts
-        expand("{prefix_deseq}{groups}_DE_stats.txt", prefix_deseq=config["DEseq2_with_DArTCounts_params"]["prefix"], groups=config["DEseq2_with_DArTCounts_params"]["groups"]),
-        expand("{prefix_deseq}{groups}_DE_marks.txt", prefix_deseq=config["DEseq2_with_DArTCounts_params"]["prefix"], groups=config["DEseq2_with_DArTCounts_params"]["groups"])       
-        ## edger_vs_deseq
-        expand("edger_vs_deseq/{edger_vs_deseq2}", edger_vs_deseq2=config["edger_vs_deseq2_output"])[0],
-        expand("edger_vs_deseq/{edger_vs_deseq2}", edger_vs_deseq2=config["edger_vs_deseq2_output"])[1],
-        expand("images/edger_vs_deseq/{edger_vs_deseq2}", edger_vs_deseq2=config["edger_vs_deseq2_output"])[2]
-        ## make_bed_methylated_sites
+        # ## barcode_removing
+        # expand("{fastq}.without_barcodes_and_adapters.fq", fastq=config["fastq"]),
+        # ## fastqc
+        # expand("fastqc_after_trimming/{fastq}.without_barcodes_and_adapters_fastqc.html", fastq=config["fastq"]),
+        # expand("fastqc_after_trimming/{fastq}.without_barcodes_and_adapters_fastqc.zip", fastq=config["fastq"]),
+        # ## combine_samples
+        # expand("{combine_samples}", combine_samples=config["combine_samples"]),
+        # ## mapping
+        # expand("mapping/{mapping}.fq", mapping=config["mapping"]["fastq"]),
+        # expand("mapping/{mapping}.sam", mapping=config["mapping"]["sam"]),
+        # ## extract_sing_mapping
+        # expand("mapping/{mapping}.single_map.sam", mapping=config["mapping"]["sam"]),
+        # ## sam_to_bam
+        # expand("mapping/{mapping}.single_map.bam", mapping=config["mapping"]["sam"]),
+        # ## merge_bam
+        # expand("mapping/{combine_bam}", combine_bam=config["combine_bam"]),
+        # ## bam_to_bed
+        # expand("bed_files/{bed_name}", bed_name=config["bam_to_bed"]["bed_name"]),
+        # ## find_methylation_site_position    
+        # "msp_pst_sites_positions_sorted.bed",
+        # ## sample_site_definition
+        # expand("sample_sites_generation/{sample_site_definition}", sample_site_definition=config["sample_site_definition"]),
+        # ## find_unique_pos   
+        # expand("multiple_bed/{find_unique_pos}", find_unique_pos=config["find_unique_pos"])[0:2],
+        # expand("bed_files/{find_unique_pos}", find_unique_pos=config["find_unique_pos"])[2],
+        # ## trimmomatic_to_counts
+        # expand("{fastq}.without_barc_and_adapt_plus_qc.fq", fastq=config["fastq"]),   
+        # ## fastqc_to_counts
+        # expand("fastqc_after_trimming/{fastq}.without_barc_and_adapt_plus_qc_fastqc.html", fastq=config["fastq"]),
+        # expand("fastqc_after_trimming/{fastq}.without_barc_and_adapt_plus_qc_fastqc.zip", fastq=config["fastq"]),
+        # ## mapping_to_counts
+        # expand("mapping/{fastq}_{map}.fq", fastq=config["fastq"], map=config["mapping"]["fastq"]),
+        # expand("mapping/{fastq}{sam_samples}.sam", fastq=config["fastq"], sam_samples=config["mapping"]["sam_samples"]),        
+        # ## extract_sing_mapping_to_counts
+        # expand("mapping/{fastq}{sam_samples}.single_map.sam", fastq=config["fastq"], sam_samples=config["mapping"]["sam_samples"]),
+        # ## sam_to_bam_to_counts
+        # expand("mapping/{fastq}{sam_samples}.single_map.bam", fastq=config["fastq"], sam_samples=config["mapping"]["sam_samples"]), 
+        # ## merge_bam_to_counts
+        # expand("mapping/{fastq}_combined.bam", fastq=config["fastq"]),
+        # ## featureCounts_input
+        # expand("bed_files/{find_unique_pos}", find_unique_pos=config["featurecounts"])[0],       
+        # ## featureCounts
+        # expand("counts/{find_unique_pos}.tst", find_unique_pos=config["featurecounts"])[1],
+        # ## counts_correction        
+        # expand("bed_files/{counts_correction}", counts_correction=config["counts_correction"])[0],
+        # expand("counts/{counts_correction}", counts_correction=config["counts_correction"])[1],
+        # ## marks_with_msp_bigger_than_0
+        # expand("true_sites/{output_bigger_than_0}.txt", output_bigger_than_0=config["marks_with_msp_outputs"]),
+        # ## determines_sampled_site_position        
+        # expand("position_of_the_sampled_sites/{methylatio_site_output}.bed", methylatio_site_output=config["detemines_sampled_site_position"])[0],
+        # expand("position_of_the_sampled_sites/{methylatio_site_output}.bed", methylatio_site_output=config["detemines_sampled_site_position"])[1],
+        # expand("{methylatio_site_output}.csv", methylatio_site_output=config["detemines_sampled_site_position"])[2],
+        # ## detemines_sampled_site_position_part_2        
+        # expand("position_of_the_sampled_sites/{methylatio_site_output}_merged.tst", methylatio_site_output=config["detemines_sampled_site_position"])[1],
+        # expand("position_of_the_sampled_sites/{methylatio_site_output}_merged.bed", methylatio_site_output=config["detemines_sampled_site_position"])[1],
+        # ## intersect_marks
+        # expand("{intersect_params}_intersect_marks.txt", intersect_params=config["intersect_marks_params"]["prefix"]),
+        # ## edgeR_with_DArTCounts       
+        # expand("{prefix_edgeR}{groups}_DE_stats.txt", prefix_edgeR=config["edgeR_with_DArTCounts_params"]["prefix"], groups=config["edgeR_with_DArTCounts_params"]["groups"]),
+        # expand("{prefix_edgeR}{groups}_DE_marks.txt", prefix_edgeR=config["edgeR_with_DArTCounts_params"]["prefix"], groups=config["edgeR_with_DArTCounts_params"]["groups"]),
+        # expand("{prefix_edgeR}{groups}_dispersions.txt", prefix_edgeR=config["edgeR_with_DArTCounts_params"]["prefix"], groups=config["edgeR_with_DArTCounts_params"]["groups"]),
+        # expand("BRASUZ1_{tissue}_msp_bigger_than_threshold.txt", tissue=config["tissues_g4"]),
+        # ## DEseq2_with_DArTCounts
+        # expand("{prefix_deseq}{groups}_DE_stats.txt", prefix_deseq=config["DEseq2_with_DArTCounts_params"]["prefix"], groups=config["DEseq2_with_DArTCounts_params"]["groups"]),
+        # expand("{prefix_deseq}{groups}_DE_marks.txt", prefix_deseq=config["DEseq2_with_DArTCounts_params"]["prefix"], groups=config["DEseq2_with_DArTCounts_params"]["groups"]),
+        # ## edger_vs_deseq
+        # expand("edger_vs_deseq/{edger_vs_deseq2}", edger_vs_deseq2=config["edger_vs_deseq2_output"])[0],
+        # expand("edger_vs_deseq/{edger_vs_deseq2}", edger_vs_deseq2=config["edger_vs_deseq2_output"])[1],
+        # expand("images/edger_vs_deseq/{edger_vs_deseq2}", edger_vs_deseq2=config["edger_vs_deseq2_output"])[2],
+        # ## make_bed_methylated_sites
         expand("methylated_sites/{make_bed_methylated_sites}", make_bed_methylated_sites=config["make_bed_methylated_sites"])
 
 rule barcode_removing:
@@ -269,10 +269,10 @@ rule find_unique_pos:
         """
 
             cd multiple_bed
-            rm -r clusters_without_pstI/
-            rm -r good_clusters/
+            rm -rf ./clusters_without_pstI/
+            rm -rf ./good_clusters/
 
-            awk -F'\t' '{{print > $7".bed"}}' ./../{input[0]}
+            awk '{{print >> $7; close($7)}}' ./../{input[0]} 
 
             Rscript ./../find_unique_positions_from_splited_clusters.R
 
