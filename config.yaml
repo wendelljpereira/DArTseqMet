@@ -1,0 +1,203 @@
+available_cores: 7
+# Files containing the barcodes used by DArT during the library preparation. Those files are used by trimmomatic to remove any barcode that remained on the reads.
+barcodes_files: 
+    [
+    "barcodes_C9C2CANXX_2.txt",
+    "barcodes_C9C2CANXX_8.txt"
+    ]
+
+# sequence of the ilummina adapters used during the library preparation. Those files are used by trimmomatic to remove any adaptor that remained on the reads.
+adapters_file: adapters.fa
+
+# The fastq files of all samples (will be used to define the sequenced fragments sampled by techinique)
+fastq:
+    [
+    "915800",
+    "915812",
+    "915824",
+    "915836",
+    "915848",
+    "915860",
+    "915871",
+    "915882",
+    "915883",
+    "916197",
+    "916198",
+    "916199",
+    "916200",
+    "916201",
+    "916202",
+    "916203",
+    "916204",
+    "916205"
+    ]
+
+combine_samples: "all_samples_without_barcodes_and_adapters.fq"
+combine_bam: all_samples.bam
+
+# Reference genome should be softmasked
+reference_genome: "Egrandis_297_v2.0.softmasked.fa"
+
+mapping:
+    fastq:
+        [
+    "no_mapped_mm0",
+    "no_mapped_mm1",
+    "no_mapped_mm2",
+    "no_mapped_mm3"
+        ]
+    sam:
+        [
+    "all_reads_mm0",
+    "all_reads_mm1",
+    "all_reads_mm2",
+    "all_reads_mm3"
+        ]
+    sam_samples:
+        [
+    "_mm0",
+    "_mm1",
+    "_mm2",
+    "_mm3"
+        ]
+
+bam_to_bed:
+    bed_name: all_samples.bed
+
+# How this file was created the first time? It needs to be generate during the analysis by using the genome and the restriction sites
+enzymes_sites: msp_pst_sites_positions_sorted.bed
+
+sample_site_definition:
+    [
+    "enz_sites_sample_reads_clusters.bed",
+    "enz_sites_sample_reads_clusters_of_interest.bed"
+    ]
+
+find_unique_pos:
+    [
+    "good_clusters.bed",
+    "clusters_without_pstI.bed",
+    "msdartseq_positions.bed"
+    ]
+
+featurecounts:
+    [
+    "msdartseq_positions.saf",
+    "msdartseq_counts"
+    ]
+
+# This file makes the conection between the sample name and the common name of the samples and needs to be generate by the user
+names_correspondence: bam_to_samples_names.csv
+
+counts_correction:
+    [
+    "msdartseq_positions_fixed.bed",
+    "msdartseq_counts_fixed.tst"
+    ]
+
+marks_with_msp_outputs:
+    [
+    "marks_with_counts_bigger_than_0",
+    ]
+
+detemines_sampled_site_position:
+    [
+    "msdartseq_sequenced_fragments",
+    "msdartseq_methylation_sites_of_sequenced_fragments",
+    "ms_dartseq_counts"
+    ]
+
+# find_methylation_site_position_inputs_p1:
+#     [
+#     "BSgenome.Egrandis.JGI.297_2.0.tar.gz"
+#     ]
+
+# find_methylation_site_position_inputs_p2:
+#     [
+#     "mspI_pstI_sites.fa"
+#     ]
+find_methylation_site_position_outputs_p2:
+    [
+   # "msp_pst_sites_positions",
+    "mspI_sites"
+    ]
+
+
+### Those are required for the intersection rule. I am not sure if it would be easily adaptable to other datasets.
+clones_names:
+    [
+    "BRASUZ1"
+    ]
+
+tissues_g4:
+    [
+    "leaf.ad",
+    "leaf.juv",
+    "wood"
+    ]
+
+enzymes:
+    [
+    "ms",
+    "hp"
+    ]
+
+intersect_marks_params:
+    prefix: ["sites_on_the_intersection/MS-DArT"]
+    grupos_intersect: ["true_sites/MS-DArT_marks_with_counts_bigger_than_0.txt"]
+intersect_marks_inputs_g4:
+    [
+    "AEC144_unic_mapped_dart_marks_non_overlap",
+    "CNB10_unic_mapped_dart_marks_non_overlap",
+    "FIB6075_unic_mapped_dart_marks_non_overlap",
+    "GG100_unic_mapped_dart_marks_non_overlap",
+    "VER361_unic_mapped_dart_marks_non_overlap"
+    ]
+
+edgeR_with_DArTCounts_params:
+    groups: ["4"]
+    prefix: edgeR_results/edger_group
+    sep_into: 3
+    subset_model: "intersect"
+    no_bio_rep: "FALSE"
+    dispersion: "NULL"
+    min_msp: 3
+    fdr: 0.05
+    log_fold_change: 2
+    filter: "posit"
+    number_of_tec_rep: 1
+    samples_with_tec_reps:
+        ["empty"]
+    samples_without_rep:
+        ["empty"]
+
+DEseq2_with_DArTCounts_params:
+    groups: ["4"]
+    prefix: DEseq2_results/deseq_group
+    sep_into: 3
+    subset_model: "intersect"
+    no_bio_rep: "FALSE"
+    dispersion: "NULL"
+    min_msp: 3
+    intersect_file: "grupo4_intersect_marks.txt"
+    fdr: 0.05
+    log_fold_change: 2
+    filter: "posit"
+    number_of_tec_rep: 1
+    samples_with_tec_reps:
+        ["empty"]
+    samples_without_rep:
+        ["empty"]
+
+edger_vs_deseq2_output:
+    [
+    "edger_DEseq2_consensus_DM_fragments.tst",
+    "edger_DEseq2_consensus_methylated_sites.tst",
+    "edgeR_vs_DEseq2_methylated_sites.svg"
+    ]
+
+make_bed_methylated_sites:
+    [
+    "Brasuz1_methylatied_sites.bed",
+    "Brasuz1_methylatied_sites_only_plus.bed"
+    ]
