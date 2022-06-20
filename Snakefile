@@ -301,7 +301,6 @@ rule find_unique_pos:
 
             awk 'BEGIN{{OFS="\t"}}; {{name="MS-DArT_site_"NR; print $1,$2,$3,name,$5,$6,$8}}' {output[2]} > temp.bed
             mv temp.bed {output[2]}
-
         """
 
 rule trimmomatic_to_counts:
@@ -491,7 +490,7 @@ rule featureCounts:
 
         while IFS=',' read bam_name sample_name
         do
-        echo "sed -i 's|$bam_name|$sample_name|g' {output[0]}" >> rename.sh
+        echo "sed -i.bak 's|$bam_name|$sample_name|g' {output[0]}" >> rename.sh
         done < {input[1]}
 
         bash rename.sh
