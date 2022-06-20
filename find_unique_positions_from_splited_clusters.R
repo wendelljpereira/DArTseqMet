@@ -6,7 +6,8 @@ getmode <- function(v) {
     uniqv <- unique(v)
     uniqv[which.max(tabulate(match(v, uniqv)))]
 }
-files <- list.files(pattern="*.bed", full.names=T, recursive=FALSE)
+files <- list.files(full.names=T, recursive=FALSE, include.dirs = FALSE)
+files <- files[!files %in% list.dirs()]
 
 system("mkdir good_clusters")
 system("mkdir clusters_without_pstI")
@@ -14,12 +15,13 @@ system("mkdir clusters_without_pstI")
 enzime1 = "PstI" # main enzime - PstI
 enzime2 = "MspI"
 
-for(i in 1:length(files)){
+TEST = 0
+for( i in 1:length(files) ){
 
-    # Read the file with all clusters formed by the combination of reads and restriction sites positions
+    # Reads the file with one of the clusters formed by the combination of reads and restriction sites positions
     cluster_with_overlaps <- as.data.frame( fread( paste(files[i]), sep="\t", header = F) )
 
-    # Verity if there is a PstI site
+    # Verity if there is a PstI site within the cluster
     if( enzime1 %in% unique( cluster_with_overlaps$V4 ) ){
 
         if( unique(cluster_with_overlaps$V6) == "+" ){
@@ -202,13 +204,15 @@ for(i in 1:length(files)){
         
     } else if( !enzime1 %in% unique(cluster_with_overlaps$V4) ) {
 
+        TEST <- TEST + 1
+        
         # Is the position without PstI sites supported by at least 10 reads?
-        if(nrow(cluster_with_overlaps) < 10) {
+        if( nrow(cluster_with_overlaps) < 10) {
 
         } else {
-            
+
             if( unique(cluster_with_overlaps$V6) == "+" ) {
-                
+
                 pos_pstI <- max( getmode(cluster_with_overlaps[cluster_with_overlaps$V4 != enzime2, 2]) )
 
                 new_positions <- cluster_with_overlaps[cluster_with_overlaps$V2 >= pos_pstI, ]
@@ -216,8 +220,8 @@ for(i in 1:length(files)){
                 biggest_frag_unique <- biggest_frag[1, ]
 
                 # There is a MspI site cover by the reads?
-                if ( enzime2 %in% unique(new_positions$V4) ) { 
-                    
+                if ( enzime2 %in% unique(new_positions$V4) ) {
+
                     new_positions <- new_positions[new_positions$V4 %in% enzime2, ]
 
                     # Necessary to deal with reads where the start position containg a MspI in the genome (caused by a 'SNP')
@@ -225,25 +229,25 @@ for(i in 1:length(files)){
                     new_positions_mspI <- new_positions[new_positions$V2 == min(new_positions$V2), ]
 
                     if(nrow(new_positions) == 1) {
-                        
+
                         if(pos_pstI %in% seq(new_positions_mspI[, 2], new_positions_mspI[, 3])){
                             new_positions_frags <- biggest_frag_unique
-                            
+
                         } else {
-                            
+
                             new_positions$V2 <- pos_pstI
                             new_positions_frags <- new_positions
-                            
+
                         }
-                        
+
                     } else if( nrow(new_positions) > 1 ) {
-                        
-                        if ( pos_pstI %in% seq(new_positions_mspI[, 2], new_positions_mspI[, 3])) {
+
+                        if ( pos_pstI %in% seq(new_positions_mspI[, 2], new_positions_mspI[, 3]) ) {
                             new_positions <- new_positions[!new_positions$V2 == new_positions_mspI$V2, ]
                             new_positions$V2 <- pos_pstI
                             new_positions_frags <- new_positions
                         }
-                        
+
                     }
 
                     # Is the intervals PstI-MspI suported for at least one read?
@@ -296,13 +300,13 @@ for(i in 1:length(files)){
                     new_positions_frags_checked <- rbind(new_positions_frags_checked, diff_pos)
                 }
 
-                
-                
-                
+
+
+
                 ### @@@ Stoped here !!!
-                
-                
-                
+
+
+
                 write.table(new_positions_frags_checked, file = paste('./',"clusters_without_pstI",'/', strsplit(files[i], "./")[[1]][[2]], sep = ""), col.names = F, row.names = F, quote = F, sep = "\t")
 
             }else if(unique(cluster_with_overlaps$V6) == "-"){
@@ -388,5 +392,7 @@ for(i in 1:length(files)){
                 write.table(new_positions_frags_checked, file = paste('./',"clusters_without_pstI",'/', strsplit(files[i], "./")[[1]][[2]], sep = ""), col.names = F, row.names = F, quote = F, sep = "\t")
             }
         }
+        
+        
     }
 }
