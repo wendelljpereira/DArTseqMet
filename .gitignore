@@ -34,3 +34,4 @@ test_using_unknown_genes_performed_on_A17_only/*
 *.sam
 *.bam
 multiple_bed/*
+counts/*
