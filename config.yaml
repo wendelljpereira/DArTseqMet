@@ -1,4 +1,7 @@
+#
 available_cores: 7
+
+
 # Files containing the barcodes used by DArT during the library preparation. Those files are used by trimmomatic to remove any barcode that remained on the reads.
 barcodes_files: 
     [
