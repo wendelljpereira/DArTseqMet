@@ -53,12 +53,12 @@ rule all:
         # ## marks_with_msp_bigger_than_0
         # expand("true_sites/{output_bigger_than_0}.txt", output_bigger_than_0=config["marks_with_msp_outputs"]),
         # ## determines_sampled_site_position        
-        # expand("position_of_the_sampled_sites/{methylatio_site_output}.bed", methylatio_site_output=config["detemines_sampled_site_position"])[0],
-        # expand("position_of_the_sampled_sites/{methylatio_site_output}.bed", methylatio_site_output=config["detemines_sampled_site_position"])[1],
-        # expand("{methylatio_site_output}.csv", methylatio_site_output=config["detemines_sampled_site_position"])[2],
-        # ## detemines_sampled_site_position_part_2        
-        # expand("position_of_the_sampled_sites/{methylatio_site_output}_merged.tst", methylatio_site_output=config["detemines_sampled_site_position"])[1],
-        # expand("position_of_the_sampled_sites/{methylatio_site_output}_merged.bed", methylatio_site_output=config["detemines_sampled_site_position"])[1],
+        # expand("position_of_the_sampled_sites/{methylatio_site_output}.bed", methylatio_site_output=config["sampled_site_position"])[0],
+        # expand("position_of_the_sampled_sites/{methylatio_site_output}.bed", methylatio_site_output=config["sampled_site_position"])[1],
+        # expand("{methylatio_site_output}.csv", methylatio_site_output=config["sampled_site_position"])[2],
+        # ## sampled_site_position_part_2        
+        # expand("position_of_the_sampled_sites/{methylatio_site_output}_merged.tst", methylatio_site_output=config["sampled_site_position"])[1],
+        # expand("position_of_the_sampled_sites/{methylatio_site_output}_merged.bed", methylatio_site_output=config["sampled_site_position"])[1],
         # ## intersect_marks
         # expand("{intersect_params}_intersect_marks.txt", intersect_params=config["intersect_marks_params"]["prefix"]),
         # ## edgeR_with_DArTCounts       
@@ -516,24 +516,24 @@ rule marks_with_msp_bigger_than_0:
     shell:
         "Rscript marks_with_msp_bigger_than_0.R --out1 {output[0]} {input[0]}"
 
-rule determines_sampled_site_position:
+rule sampled_site_position:
     input:
         expand("bed_files/{counts_correction}", counts_correction=config["counts_correction"])[0],
         "msp_pst_sites_positions_sorted.bed",
         expand("counts/{counts_correction}", counts_correction=config["counts_correction"])[1]
     output:
-        expand("position_of_the_sampled_sites/{methylatio_site_output}.bed", methylatio_site_output=config["detemines_sampled_site_position"])[0],
-        expand("position_of_the_sampled_sites/{methylatio_site_output}.bed", methylatio_site_output=config["detemines_sampled_site_position"])[1],
-        expand("{methylatio_site_output}.csv", methylatio_site_output=config["detemines_sampled_site_position"])[2]
+        expand("position_of_the_sampled_sites/{methylatio_site_output}.bed", methylatio_site_output=config["sampled_site_position"])[0],
+        expand("position_of_the_sampled_sites/{methylatio_site_output}.bed", methylatio_site_output=config["sampled_site_position"])[1],
+        expand("{methylatio_site_output}.csv", methylatio_site_output=config["sampled_site_position"])[2]
     shell:
         "Rscript marks_closest_restriction_site_search.R --out1 {output[0]} --out2 {output[1]} --out3 {output[2]} {input[0]} {input[1]} {input[2]}"
 
-rule detemines_sampled_site_position_part_2:
+rule sampled_site_position_part_2:
     input:
-        expand("position_of_the_sampled_sites/{methylatio_site_output}.bed", methylatio_site_output=config["detemines_sampled_site_position"])[1]
+        expand("position_of_the_sampled_sites/{methylatio_site_output}.bed", methylatio_site_output=config["sampled_site_position"])[1]
     output:
-        expand("position_of_the_sampled_sites/{methylatio_site_output}_merged.tst", methylatio_site_output=config["detemines_sampled_site_position"])[1],
-        expand("position_of_the_sampled_sites/{methylatio_site_output}_merged.bed", methylatio_site_output=config["detemines_sampled_site_position"])[1]
+        expand("position_of_the_sampled_sites/{methylatio_site_output}_merged.tst", methylatio_site_output=config["sampled_site_position"])[1],
+        expand("position_of_the_sampled_sites/{methylatio_site_output}_merged.bed", methylatio_site_output=config["sampled_site_position"])[1]
     shell:
         """
 
@@ -546,7 +546,7 @@ rule detemines_sampled_site_position_part_2:
 ## This rule seems to have dependences that need to be generalized.
 rule intersect_marks:
     input:
-        expand("position_of_the_sampled_sites/{methylatio_site_output}_merged.bed", methylatio_site_output=config["detemines_sampled_site_position"])[1],
+        expand("position_of_the_sampled_sites/{methylatio_site_output}_merged.bed", methylatio_site_output=config["sampled_site_position"])[1],
         expand("true_sites/{output_bigger_than_0}.txt", output_bigger_than_0=config["marks_with_msp_outputs"])
     params:
         names=expand("{intersect_params}", intersect_params=config["clones_names"]),
@@ -562,7 +562,7 @@ rule intersect_marks:
 rule edgeR_with_DArTCounts:
     input:
         expand("{intersect_params}_intersect_marks.txt", intersect_params=config["intersect_marks_params"]["prefix"]),
-        expand("{methylatio_site_output}.csv", methylatio_site_output=config["detemines_sampled_site_position"])[2],
+        expand("{methylatio_site_output}.csv", methylatio_site_output=config["sampled_site_position"])[2],
     params:
         groups=expand("{edgeR_params}", edgeR_params=config["edgeR_with_DArTCounts_params"]["groups"]),
         prefix=expand("{edgeR_params}", edgeR_params=config["edgeR_with_DArTCounts_params"]["prefix"]),
@@ -590,7 +590,7 @@ rule edgeR_with_DArTCounts:
 rule DEseq2_with_DArTCounts:
     input:
         expand("{intersect_params}_intersect_marks.txt", intersect_params=config["intersect_marks_params"]["prefix"]),
-        expand("{methylatio_site_output}.csv", methylatio_site_output=config["detemines_sampled_site_position"])[2]
+        expand("{methylatio_site_output}.csv", methylatio_site_output=config["sampled_site_position"])[2]
     params:
         groups=expand("{deseq_params}", deseq_params=config["DEseq2_with_DArTCounts_params"]["groups"]),
         prefix=expand("{deseq_params}", deseq_params=config["DEseq2_with_DArTCounts_params"]["prefix"]),
@@ -617,7 +617,7 @@ rule edger_vs_deseq:
     input:
         expand("{prefix_edgeR}{groups}_DE_marks.txt", prefix_edgeR=config["edgeR_with_DArTCounts_params"]["prefix"], groups=config["edgeR_with_DArTCounts_params"]["groups"]),
         expand("{prefix_deseq}{groups}_DE_marks.txt", prefix_deseq=config["DEseq2_with_DArTCounts_params"]["prefix"], groups=config["DEseq2_with_DArTCounts_params"]["groups"]),
-        expand("position_of_the_sampled_sites/{methylatio_site_output}_merged.bed", methylatio_site_output=config["detemines_sampled_site_position"])[1]
+        expand("position_of_the_sampled_sites/{methylatio_site_output}_merged.bed", methylatio_site_output=config["sampled_site_position"])[1]
     output:
         expand("edger_vs_deseq/{edger_vs_deseq2}", edger_vs_deseq2=config["edger_vs_deseq2_output"])[0],
         expand("edger_vs_deseq/{edger_vs_deseq2}", edger_vs_deseq2=config["edger_vs_deseq2_output"])[1],
@@ -627,7 +627,7 @@ rule edger_vs_deseq:
 
 rule make_bed_methylated_sites:
     input:
-        expand("position_of_the_sampled_sites/{methylatio_site_output}_merged.bed", methylatio_site_output=config["detemines_sampled_site_position"])[1],
+        expand("position_of_the_sampled_sites/{methylatio_site_output}_merged.bed", methylatio_site_output=config["sampled_site_position"])[1],
         expand("edger_vs_deseq/{edger_vs_deseq2}", edger_vs_deseq2=config["edger_vs_deseq2_output"])[1]
     output:
         expand("methylated_sites/{make_bed_methylated_sites}", make_bed_methylated_sites=config["make_bed_methylated_sites"])
