@@ -1,0 +1,14 @@
+name: DArTseqMet
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - r=3.5.1
+  - r-docopt
+  - bioconductor-biostrings  
+  - trimmomatic
+  - samtools
+  - bedtools
+  - subread
+  - fastqc
