@@ -7,7 +7,7 @@
 *.rda
 *.svg
 *.html
-*.png
+# *.png 
 *.xlsx
 *.pptx
 *.pdf
