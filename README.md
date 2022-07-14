@@ -12,6 +12,29 @@ The method shown here is described in the paper ["A cost-effective approach to D
 
 This computational protocol is designed to be executed using the [Snakemake workflow management system](https://snakemake.readthedocs.io/en/stable/).
 
+### Simple installation
+
+Here we provide a simplified installation using few steps.
+
+1. Conda/bioconda
+
+        wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+        bash Miniconda3-latest-Linux-x86_64.sh
+        conda config --add channels bioconda
+        conda install -c conda-forge mamba
+
+2. DArTseqMet pipeline
+
+        git clone https://github.com/wendelljpereira/DArTseqMet
+        cd DArTseqMet
+        mamba env create --file dartseqmet.yaml
+        conda activate dartseqmet
+ 
+
+### Step wise installation
+
+A step-by-step installation of the major software components is given below, in case the simplified installation procedure does not work.
+
 The recommended method for [installing Snakemake](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html) is by using Conda/Mamba, as shown below:
 
 ```sh
@@ -59,6 +82,8 @@ We also need to install some R packages.
 conda install -c bioconda bioconductor-biostrings
 conda install -c r r-docopt
 ```
+
+**Important**: Notice the different conda environment names created by the simplified installation (`dartseqmet`) and the alternative (`DArTseqMet`)
 
 ## Executing the analysis
 
