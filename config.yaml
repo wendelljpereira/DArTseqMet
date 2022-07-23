@@ -1,18 +1,12 @@
 #
 available_cores: 7
 
+##########################################
+## User modifiable configuration options #
+##########################################
 
-# Files containing the barcodes used by DArT during the library preparation. Those files are used by trimmomatic to remove any barcode that remained on the reads.
-barcodes_files: 
-    [
-    "barcodes_C9C2CANXX_2.txt",
-    "barcodes_C9C2CANXX_8.txt"
-    ]
-
-# sequence of the ilummina adapters used during the library preparation. Those files are used by trimmomatic to remove any adaptor that remained on the reads.
-adapters_file: adapters.fa
-
-# The fastq files of all samples (will be used to define the sequenced fragments sampled by techinique)
+# The fastq files of all samples
+# (will be used to define the sequenced fragments sampled by technique)
 fastq:
     [
     "915800",
@@ -35,11 +29,49 @@ fastq:
     "916205"
     ]
 
+# Full path to reference genome. It should be softmasked
+reference_genome: "Egrandis_297_v2.0.softmasked.fa"
+
+# Files containing the barcodes per sample used by DArT during the library preparation. 
+# Those files are used by trimmomatic to remove any barcode that remained on the reads.
+barcodes_files: 
+    [
+    "barcodes_C9C2CANXX_2.txt",
+    "barcodes_C9C2CANXX_8.txt"
+    ]
+
+# sequence of the ilummina adapters used during the library preparation. Those files are used by trimmomatic to remove any adaptor that remained on the reads.
+adapters_file: adapters.fa
+
+
+### Those are required for the intersection rule. I am not sure if it would be easily adaptable to other datasets.
+clones_names:
+    [
+    "BRASUZ1"
+    ]
+
+tissues_g4:
+    [
+    "leaf.ad",
+    "leaf.juv",
+    "wood"
+    ]
+
+# Methylation-sensitive enzyme pairs
+enzymes:
+    [
+    "ms",
+    "hp"
+    ]
+
+
+
+###################### DO NOT CHANGE #######################
+
+
 combine_samples: "all_samples_without_barcodes_and_adapters.fq"
 combine_bam: all_samples.bam
 
-# Reference genome should be softmasked
-reference_genome: "Egrandis_297_v2.0.softmasked.fa"
 
 mapping:
     fastq:
@@ -103,7 +135,7 @@ marks_with_msp_outputs:
     "marks_with_counts_bigger_than_0",
     ]
 
-detemines_sampled_site_position:
+sampled_site_position:
     [
     "msdartseq_sequenced_fragments",
     "msdartseq_methylation_sites_of_sequenced_fragments",
@@ -125,25 +157,6 @@ find_methylation_site_position_outputs_p2:
     "mspI_sites"
     ]
 
-
-### Those are required for the intersection rule. I am not sure if it would be easily adaptable to other datasets.
-clones_names:
-    [
-    "BRASUZ1"
-    ]
-
-tissues_g4:
-    [
-    "leaf.ad",
-    "leaf.juv",
-    "wood"
-    ]
-
-enzymes:
-    [
-    "ms",
-    "hp"
-    ]
 
 intersect_marks_params:
     prefix: ["sites_on_the_intersection/MS-DArT"]
@@ -182,7 +195,7 @@ DEseq2_with_DArTCounts_params:
     no_bio_rep: "FALSE"
     dispersion: "NULL"
     min_msp: 3
-    intersect_file: "grupo4_intersect_marks.txt"
+    intersect_file: "group_intersect_marks.txt"
     fdr: 0.05
     log_fold_change: 2
     filter: "posit"
@@ -201,6 +214,6 @@ edger_vs_deseq2_output:
 
 make_bed_methylated_sites:
     [
-    "Brasuz1_methylatied_sites.bed",
-    "Brasuz1_methylatied_sites_only_plus.bed"
+    "methylated_sites.bed",
+    "methylated_sites_only_plus.bed"
     ]
