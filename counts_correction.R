@@ -9,7 +9,7 @@ counts_correction.R -h | --help  show this message
 
 require(docopt)
 require(tidyverse)
-
+set.seed(1407)
 # retrieve the command-line arguments
 opts <- docopt(doc)
 
