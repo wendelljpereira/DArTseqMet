@@ -1,7 +1,7 @@
 require(gdata)
 require(VennDiagram)
 require(gridExtra)
-
+set.seed(1407)
 # Function to remove redundance between MSD-Tags
 correct_sites <- function(sites_bed_file = sites_bed_file, data = data){
 
