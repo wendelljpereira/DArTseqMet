@@ -12,7 +12,7 @@ marks_closest_restriction_site_search.R -h | --help  show this message
 # Loads the docopt library
 require(docopt)
 require(tidyverse)
-
+set.seed(1407)
 # Retrieves the command-line arguments
 opts <- docopt(doc)
 

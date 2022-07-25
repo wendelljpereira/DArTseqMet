@@ -7,6 +7,7 @@ marks_with_msp_bigger_than_0.R -h | --help  show this message
 
 # load the docopt library
 require(docopt)
+set.seed(1407)
 # retrieve the command-line arguments
 opts <- docopt(doc)
 

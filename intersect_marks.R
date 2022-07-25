@@ -1,5 +1,6 @@
 require(docopt)
 require(gdata)
+set.seed(1407)
 
 intersect_marks <- function(data_intersect = data_intersect,
                             clone_name = "name",

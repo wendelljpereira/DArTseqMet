@@ -1,3 +1,4 @@
+set.seed(1407)
 sites <- read.table(snakemake@input[[1]], sep = "\t")
 
 # Reads the methylated sites

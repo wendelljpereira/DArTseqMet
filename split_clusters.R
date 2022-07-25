@@ -8,7 +8,7 @@ cns_atac_processing.R -h | --help  show this message
 # loads the docopt library
 require(docopt)
 require(data.table)
-
+set.seed(1407)
 # retrieves the command-line arguments
 opts <- docopt(doc)
 

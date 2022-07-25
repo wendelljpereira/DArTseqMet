@@ -9,7 +9,7 @@ finding_restriction_site_2.0.R -h | --help  show this message
 # load the docopt library
 suppressMessages ( require("Biostrings") )
 suppressMessages ( require("docopt") )
-
+set.seed(1407)
 # retrieve the command-line arguments
 opts <- docopt::docopt(doc)
 
