@@ -3,7 +3,7 @@ require(DESeq2)
 require(plyr)
 require(gdata)
 require(tidyr)
-
+set.seed(1407)
 # Help function to do the differential expression analysis
 deseq2_with_counts <- function(file = file,
                                prefix = prefix,
