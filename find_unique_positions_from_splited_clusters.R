@@ -1,5 +1,7 @@
 require(docopt)
 require(data.table)
+require(tidyverse)
+set.seed(1407)
 
 # Create the function to return the mode of a vector
 getmode <- function(v) {
@@ -15,16 +17,16 @@ system("mkdir clusters_without_pstI")
 enzime1 = "PstI" # main enzime - PstI
 enzime2 = "MspI"
 
-TEST = 0
-for( i in 1:length(files) ){
-
+for( i in 1:length(files) ) {
+    
     # Reads the file with one of the clusters formed by the combination of reads and restriction sites positions
-    cluster_with_overlaps <- as.data.frame( fread( paste(files[i]), sep="\t", header = F) )
+    cluster_with_overlaps <- as.data.frame( fread( paste(files[i]), sep="\t", header = F) ) %>%
+        dplyr::distinct()
 
     # Verity if there is a PstI site within the cluster
-    if( enzime1 %in% unique( cluster_with_overlaps$V4 ) ){
+    if( enzime1 %in% unique( cluster_with_overlaps$V4 ) ) {
 
-        if( unique(cluster_with_overlaps$V6) == "+" ){
+        if( unique( cluster_with_overlaps$V6 ) == "+" ) {
 
             pos_pstI <- max(cluster_with_overlaps[cluster_with_overlaps$V4 == enzime1, 2])
 
@@ -32,7 +34,7 @@ for( i in 1:length(files) ){
             biggest_frag <- new_positions[new_positions$V3 - new_positions$V2 == max(new_positions$V3 - new_positions$V2), ]
             biggest_frag_unique <- biggest_frag[1, ]
 
-            if(enzime1 %in% unique(new_positions$V4) & enzime2 %in% unique(new_positions$V4)){
+            if ( enzime1 %in% unique(new_positions$V4) & enzime2 %in% unique(new_positions$V4) ) {
 
                 new_positions <- new_positions[new_positions$V4 %in% c(enzime1, enzime2), ]
 
@@ -40,7 +42,7 @@ for( i in 1:length(files) ){
                 new_positions_frags <- new_positions[new_positions$V4 == enzime2, ]
 
                 # Is the intervals PstI-MspI suported for at least one read?
-                ## Test if each of the PstI-MspI intervals containg reads that start on the pstI site and end in the mspI site.
+                ## Test if each of the PstI-MspI intervals contains reads that start on the pstI site and end in the mspI site.
                 new_positions_frags_checked <- data.frame()
                 for( r in 1:nrow(new_positions_frags) ) {
                     
@@ -53,10 +55,10 @@ for( i in 1:length(files) ){
                 }
 
                 # If any PstI-MspI frag is supported by reads, test if there is any reads bigger than this frag and, If true, add this read as a new feature.
-                if( nrow( new_positions_frags_checked ) >= 1 ) {
+                if ( nrow( new_positions_frags_checked ) >= 1 ) {
 
                     # Test if the there is any frags bigger than the biggest PstI-MspI position.
-                    if( biggest_frag_unique$V2 >= min(new_positions_frags$V2) && biggest_frag_unique$V3 <= max(new_positions_frags$V3) ) {
+                    if ( biggest_frag_unique$V2 >= min(new_positions_frags$V2) && biggest_frag_unique$V3 <= max(new_positions_frags$V3) ) {
 
                     } else {
                         
@@ -203,8 +205,6 @@ for( i in 1:length(files) ){
         }
         
     } else if( !enzime1 %in% unique(cluster_with_overlaps$V4) ) {
-
-        TEST <- TEST + 1
         
         # Is the position without PstI sites supported by at least 10 reads?
         if( nrow(cluster_with_overlaps) < 10) {
@@ -224,11 +224,11 @@ for( i in 1:length(files) ){
 
                     new_positions <- new_positions[new_positions$V4 %in% enzime2, ]
 
-                    # Necessary to deal with reads where the start position containg a MspI in the genome (caused by a 'SNP')
+                    # Necessary to deal with reads where the start position contain a MspI in the genome (caused by a 'SNP')
                     ## Select the MspI closest to the begin of the feature, test it the 'pstI position" is the same and ignore the mspI frag if true.
                     new_positions_mspI <- new_positions[new_positions$V2 == min(new_positions$V2), ]
 
-                    if(nrow(new_positions) == 1) {
+                    if ( nrow(new_positions) == 1 ) {
 
                         if(pos_pstI %in% seq(new_positions_mspI[, 2], new_positions_mspI[, 3])){
                             new_positions_frags <- biggest_frag_unique
