@@ -3,7 +3,7 @@ require(edgeR)
 require(plyr)
 require(gdata)
 require(tidyr)
-
+set.seed(1407)
 # Help function to do the differential expression analysis
 edgeR_with_counts <- function(file = file,
                               prefix = prefix,
