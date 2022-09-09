@@ -12,7 +12,7 @@ The method shown here is described in the paper ["A cost-effective approach to D
 
 This computational protocol is designed to be executed using the [Snakemake workflow management system](https://snakemake.readthedocs.io/en/stable/).
 
-### Simple installation
+<!-- ### Simple installation
 
 Here we provide a simplified installation using few steps.
 
@@ -28,12 +28,12 @@ Here we provide a simplified installation using few steps.
         git clone https://github.com/wendelljpereira/DArTseqMet
         cd DArTseqMet
         mamba env create --file dartseqmet.yaml
-        conda activate dartseqmet
+        conda activate dartseqmet -->
  
-
 ### Step wise installation
 
-A step-by-step installation of the major software components is given below, in case the simplified installation procedure does not work.
+A step-by-step installation of the major software components is given below.
+<!-- , in case the simplified installation procedure does not work. -->
 
 The recommended method for [installing Snakemake](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html) is by using Conda/Mamba, as shown below:
 
@@ -47,7 +47,7 @@ Here, we create an environment named DArTseqMet while also installing Snakemake 
 
 ```sh
 conda activate base
-mamba create -c conda-forge -c bioconda -n DArTseqMet snakemake
+mamba create -c conda-forge -c bioconda -n DArTseqMet snakemake r-base -y
 
 # Here we create a new environment for bowtie two, then export it as a yaml file that can be called in the rules of the worflow that depend on it.
 mamba create -c conda-forge -c bioconda -n bowtie2_env python=2.7 bowtie2
@@ -62,8 +62,6 @@ Next, we activate the DArTseqMet and install other necessary software for the wo
 ```sh
 conda activate DArTseqMet
 
-## Installing R
-conda install r=3.5.1
 ## Installing Trimmomatic from the bioconda channel
 conda install -c bioconda trimmomatic
 ## Installing samtools from the bioconda channel
@@ -71,7 +69,7 @@ conda install -c bioconda samtools
 ## Installing bedtools from the bioconda channel
 conda install -c bioconda bedtools
 ## Installing subread from the bioconda channel
-conda install -c bioconda subread
+mamba install -c bioconda subread
 ## Installing fastqc from the bioconda channel
 conda install -c bioconda fastqc
 ```
@@ -79,17 +77,22 @@ conda install -c bioconda fastqc
 We also need to install some R packages.
 
 ```sh
-conda install -c bioconda bioconductor-biostrings
-conda install -c r r-docopt
+mamba install -c conda-forge r-docopt r-tidyverse r-data.table r-gdata r-gridextra  r-essentials 
 ```
 
-**Important**: Notice the different conda environment names created by the simplified installation (`dartseqmet`) and the alternative (`DArTseqMet`)
+Unfortunately, mamba does not work appropriately when installing Bioconductor packages. Therefore, we install the necessary Bioconductor packages directly in R using the command line below. 
+
+```sh
+R -e "install.packages('BiocManager', repos='http://cran.us.r-project.org'); library('BiocManager'); BiocManager::install('DESeq2'); BiocManager::install('biostrings'); BiocManager::install('edgeR'); BiocManager::install('VennDiagram')"
+```
+
+<!-- **Important**: Notice the different conda environment names created by the simplified installation (`dartseqmet`) and the alternative (`DArTseqMet`) -->
 
 ## Executing the analysis
 
 ### Adjusting the config.yaml file.
 
-Users need to adjust the config.yaml file to inform samples names and other parameters...
+Users need to adjust the config.yaml file to inform samples names and other parameters that are required for the analyses. Note that some files are required to be in a specific format. Files format and other restrictions are listed on the file config.yaml.
 
 ### Executing the workflow
 
