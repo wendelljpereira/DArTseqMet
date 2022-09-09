@@ -2,79 +2,7 @@ configfile: "config.yaml"
 
 rule all:
     input:
-        ## Add the required files here.
-    output:
-        # ## barcode_removing
-        # expand("{fastq}.without_barcodes_and_adapters.fq", fastq=config["fastq"]),
-        # ## fastqc
-        # expand("fastqc_after_trimming/{fastq}.without_barcodes_and_adapters_fastqc.html", fastq=config["fastq"]),
-        # expand("fastqc_after_trimming/{fastq}.without_barcodes_and_adapters_fastqc.zip", fastq=config["fastq"]),
-        # ## combine_samples
-        # expand("{combine_samples}", combine_samples=config["combine_samples"]),
-        # ## mapping
-        # expand("mapping/{mapping}.fq", mapping=config["mapping"]["fastq"]),
-        # expand("mapping/{mapping}.sam", mapping=config["mapping"]["sam"]),
-        # ## extract_sing_mapping
-        # expand("mapping/{mapping}.single_map.sam", mapping=config["mapping"]["sam"]),
-        # ## sam_to_bam
-        # expand("mapping/{mapping}.single_map.bam", mapping=config["mapping"]["sam"]),
-        # ## merge_bam
-        # expand("mapping/{combine_bam}", combine_bam=config["combine_bam"]),
-        # ## bam_to_bed
-        # expand("bed_files/{bed_name}", bed_name=config["bam_to_bed"]["bed_name"]),
-        # ## find_methylation_site_position    
-        # "msp_pst_sites_positions_sorted.bed",
-        # ## sample_site_definition
-        # expand("sample_sites_generation/{sample_site_definition}", sample_site_definition=config["sample_site_definition"]),
-        # ## find_unique_pos   
-        # expand("multiple_bed/{find_unique_pos}", find_unique_pos=config["find_unique_pos"])[0:2],
-        # expand("bed_files/{find_unique_pos}", find_unique_pos=config["find_unique_pos"])[2],
-        # ## trimmomatic_to_counts
-        # expand("{fastq}.without_barc_and_adapt_plus_qc.fq", fastq=config["fastq"]),   
-        # ## fastqc_to_counts
-        # expand("fastqc_after_trimming/{fastq}.without_barc_and_adapt_plus_qc_fastqc.html", fastq=config["fastq"]),
-        # expand("fastqc_after_trimming/{fastq}.without_barc_and_adapt_plus_qc_fastqc.zip", fastq=config["fastq"]),
-        # ## mapping_to_counts
-        # expand("mapping/{fastq}_{map}.fq", fastq=config["fastq"], map=config["mapping"]["fastq"]),
-        # expand("mapping/{fastq}{sam_samples}.sam", fastq=config["fastq"], sam_samples=config["mapping"]["sam_samples"]),        
-        # ## extract_sing_mapping_to_counts
-        # expand("mapping/{fastq}{sam_samples}.single_map.sam", fastq=config["fastq"], sam_samples=config["mapping"]["sam_samples"]),
-        # ## sam_to_bam_to_counts
-        # expand("mapping/{fastq}{sam_samples}.single_map.bam", fastq=config["fastq"], sam_samples=config["mapping"]["sam_samples"]), 
-        # ## merge_bam_to_counts
-        # expand("mapping/{fastq}_combined.bam", fastq=config["fastq"]),
-        # ## featureCounts_input
-        # expand("bed_files/{find_unique_pos}", find_unique_pos=config["featurecounts"])[0],       
-        # ## featureCounts
-        # expand("counts/{find_unique_pos}.tst", find_unique_pos=config["featurecounts"])[1],
-        # ## counts_correction        
-        # expand("bed_files/{counts_correction}", counts_correction=config["counts_correction"])[0],
-        # expand("counts/{counts_correction}", counts_correction=config["counts_correction"])[1],
-        # ## marks_with_msp_bigger_than_0
-        # expand("true_sites/{output_bigger_than_0}.txt", output_bigger_than_0=config["marks_with_msp_outputs"]),
-        # ## determines_sampled_site_position        
-        # expand("position_of_the_sampled_sites/{methylatio_site_output}.bed", methylatio_site_output=config["sampled_site_position"])[0],
-        # expand("position_of_the_sampled_sites/{methylatio_site_output}.bed", methylatio_site_output=config["sampled_site_position"])[1],
-        # expand("{methylatio_site_output}.csv", methylatio_site_output=config["sampled_site_position"])[2],
-        # ## sampled_site_position_part_2        
-        # expand("position_of_the_sampled_sites/{methylatio_site_output}_merged.tst", methylatio_site_output=config["sampled_site_position"])[1],
-        # expand("position_of_the_sampled_sites/{methylatio_site_output}_merged.bed", methylatio_site_output=config["sampled_site_position"])[1],
-        # ## intersect_marks
-        # expand("{intersect_params}_intersect_marks.txt", intersect_params=config["intersect_marks_params"]["prefix"]),
-        # ## edgeR_with_DArTCounts       
-        # expand("{prefix_edgeR}{groups}_DE_stats.txt", prefix_edgeR=config["edgeR_with_DArTCounts_params"]["prefix"], groups=config["edgeR_with_DArTCounts_params"]["groups"]),
-        # expand("{prefix_edgeR}{groups}_DE_marks.txt", prefix_edgeR=config["edgeR_with_DArTCounts_params"]["prefix"], groups=config["edgeR_with_DArTCounts_params"]["groups"]),
-        # expand("{prefix_edgeR}{groups}_dispersions.txt", prefix_edgeR=config["edgeR_with_DArTCounts_params"]["prefix"], groups=config["edgeR_with_DArTCounts_params"]["groups"]),
-        # expand("BRASUZ1_{tissue}_msp_bigger_than_threshold.txt", tissue=config["tissues_g4"]),
-        # ## DEseq2_with_DArTCounts
-        # expand("{prefix_deseq}{groups}_DE_stats.txt", prefix_deseq=config["DEseq2_with_DArTCounts_params"]["prefix"], groups=config["DEseq2_with_DArTCounts_params"]["groups"]),
-        # expand("{prefix_deseq}{groups}_DE_marks.txt", prefix_deseq=config["DEseq2_with_DArTCounts_params"]["prefix"], groups=config["DEseq2_with_DArTCounts_params"]["groups"]),
-        # ## edger_vs_deseq
-        # expand("edger_vs_deseq/{edger_vs_deseq2}", edger_vs_deseq2=config["edger_vs_deseq2_output"])[0],
-        # expand("edger_vs_deseq/{edger_vs_deseq2}", edger_vs_deseq2=config["edger_vs_deseq2_output"])[1],
-        # expand("images/edger_vs_deseq/{edger_vs_deseq2}", edger_vs_deseq2=config["edger_vs_deseq2_output"])[2],
-        # ## make_bed_methylated_sites
-        expand("methylated_sites/{make_bed_methylated_sites}", make_bed_methylated_sites=config["make_bed_methylated_sites"])
+        expand("methylated_sites/{generated_bed_file_of_DNA_methylations}", generated_bed_file_of_DNA_methylations=config["generated_bed_file_of_DNA_methylations"])
 
 rule barcode_removing:
     input:
@@ -119,18 +47,18 @@ rule fastqc:
         mv *fastqc.html fastqc_after_trimming
         """
 
-rule combine_samples:
+rule combining_samples:
     input:
         expand("{fastq}.without_barcodes_and_adapters.fq", fastq=config["fastq"])
     output:
-        expand("{combine_samples}", combine_samples=config["combine_samples"])
+        expand("{combining_samples}", combining_samples=config["combining_samples"])
     shell:
         "cat {input} > {output}"
 
 rule mapping:
     input:
         expand("{reference_genome}", reference_genome=config["reference_genome"]),
-        expand("{combine_samples}", combine_samples=config["combine_samples"])
+        expand("{combining_samples}", combining_samples=config["combining_samples"])
     conda: "bowtie2.yaml" 
     threads: config["available_cores"]
     output:
@@ -153,7 +81,7 @@ rule mapping:
 
         """
 
-rule extract_sing_mapping:
+rule extracts_single_mapping_reads:
     input:
         expand("mapping/{mapping}.sam", mapping=config["mapping"]["sam"])
     threads: config["available_cores"]
@@ -229,21 +157,21 @@ rule bam_to_bed:
 
         """
 
-rule find_methylation_site_position:
+rule find_the_find_methylation_sites_position:
     input:
-        "Egrandis_297_v2.0.softmasked.fa",
-        "mspI_pstI_sites.fa"
+        expand("{reference_genome}", reference_genome=config["reference_genome"]),
+        expand("{restriction_site_sequences}", restriction_site_sequences=config["restriction_site_sequences"])
     output:
-        "msp_pst_sites_positions_sorted.bed"
+       expand("{position_of_RE_sites}", position_of_RE_sites=config["position_of_RE_sites"])
     shell:
         "Rscript finding_restriction_site_2.0.R --out1 {output[0]} {input[0]} {input[1]}"
 
-rule sample_site_definition:
+rule defines_the_position_of_sampled_sites:
     input:
         expand("bed_files/{bed_name}", bed_name=config["bam_to_bed"]["bed_name"]),
-        expand("{enzymes_sites}", enzymes_sites=config["enzymes_sites"])
+        expand("{position_of_RE_sites}", position_of_RE_sites=config["position_of_RE_sites"])
     output:
-        expand("sample_sites_generation/{sample_site_definition}", sample_site_definition=config["sample_site_definition"])
+        expand("sample_sites_generation/{defines_the_position_of_sampled_sites}", defines_the_position_of_sampled_sites=config["defines_the_position_of_sampled_sites"])
     shell:
         """
 
@@ -259,12 +187,12 @@ rule sample_site_definition:
 
         """
 
-rule find_unique_pos:
+rule finds_unique_positions:
     input:
-        expand("sample_sites_generation/{sample_site_definition}", sample_site_definition=config["sample_site_definition"])[1]
+        expand("sample_sites_generation/{defines_the_position_of_sampled_sites}", defines_the_position_of_sampled_sites=config["defines_the_position_of_sampled_sites"])[1]
     output:
-        expand("multiple_bed/{find_unique_pos}", find_unique_pos=config["find_unique_pos"])[0:2],
-        expand("bed_files/{find_unique_pos}", find_unique_pos=config["find_unique_pos"])[2]
+        expand("multiple_bed/{finds_unique_positions}", finds_unique_positions=config["finds_unique_positions"])[0:2],
+        expand("bed_files/{finds_unique_positions}", finds_unique_positions=config["finds_unique_positions"])[2]
     shell:
         """
 
@@ -303,7 +231,7 @@ rule find_unique_pos:
             mv temp.bed {output[2]}
         """
 
-rule trimmomatic_to_counts:
+rule trimmomatic_individual_libraries:
     input:
         expand("{barcodes_files}", barcodes_files=config["barcodes_files"]),
         expand("{adapters_file}", adapters_file=config["adapters_file"]),
@@ -333,7 +261,7 @@ rule trimmomatic_to_counts:
             done < "$barcode_file2"
         """
 
-rule fastqc_to_counts:
+rule fastqc_individual_libraries:
     input:
         expand("{fastq}.without_barc_and_adapt_plus_qc.fq", fastq=config["fastq"])
     output:
@@ -344,7 +272,7 @@ rule fastqc_to_counts:
         "mv *fastqc.zip fastqc_after_trimming;"
         "mv *fastqc.html fastqc_after_trimming"
 
-rule mapping_to_counts:
+rule mapping_individual_libraries:
     input:
         expand("{reference_genome}", reference_genome=config["reference_genome"]),
         expand("{fastq}.without_barc_and_adapt_plus_qc.fq", fastq=config["fastq"])
@@ -398,7 +326,7 @@ rule mapping_to_counts:
 
         """
 
-rule extract_sing_mapping_to_counts:
+rule extracts_single_mapping_reads_individual_libraries:
     input:
         expand("mapping/{fastq}{sam_samples}.sam", fastq=config["fastq"], sam_samples=config["mapping"]["sam_samples"])
     threads: config["available_cores"]
@@ -415,7 +343,7 @@ rule extract_sing_mapping_to_counts:
 
         """
 
-rule sam_to_bam_to_counts:
+rule sam_to_bam_individual_libraries:
     input:
         expand("mapping/{fastq}{sam_samples}.single_map.sam", fastq=config["fastq"], sam_samples=config["mapping"]["sam_samples"])
     threads: config["available_cores"]
@@ -434,7 +362,7 @@ rule sam_to_bam_to_counts:
 
         """
 
-rule merge_bam_to_counts:
+rule merge_bam_individual_libraries:
     input:
         expand("mapping/{fastq}{sam_samples}.single_map.bam", fastq=config["fastq"], sam_samples=config["mapping"]["sam_samples"])
     threads: config["available_cores"]
@@ -456,11 +384,11 @@ rule merge_bam_to_counts:
 
         """
 
-rule featureCounts_input:
+rule prepare_featureCounts_input:
     input:
-        expand("bed_files/{find_unique_pos}", find_unique_pos=config["find_unique_pos"])[2]
+        expand("bed_files/{finds_unique_positions}", finds_unique_positions=config["finds_unique_positions"])[2]
     output:
-        expand("bed_files/{find_unique_pos}", find_unique_pos=config["featurecounts"])[0]
+        expand("bed_files/{finds_unique_positions}", finds_unique_positions=config["featurecounts"])[0]
     shell:
         """
         awk 'BEGIN{{OFS="\t"}}; {{print $4,$1,$2,$3,$6}}' {input[0]} > {output[0]}
@@ -468,58 +396,49 @@ rule featureCounts_input:
 
 rule featureCounts:
     input:
-        expand("bed_files/{find_unique_pos}", find_unique_pos=config["featurecounts"])[0],
-        expand("{names_correspondence}", names_correspondence=config["names_correspondence"]),
+        expand("bed_files/{finds_unique_positions}", finds_unique_positions=config["featurecounts"])[0],
         expand("mapping/{fastq}_combined.bam", fastq=config["fastq"])
     threads: config["available_cores"]
     output:
-        expand("counts/{find_unique_pos}.tst", find_unique_pos=config["featurecounts"])[1]
+        expand("counts/{finds_unique_positions}.tst", finds_unique_positions=config["featurecounts"])[1]
     shell:
         """
-        #rm mapping/*.sam
-        #rm mapping/*single_map.sam
-
         declare -a list_of_bams
         list_of_bams=({input})
-        list_of_bams="${{list_of_bams[@]:2}}"
+        list_of_bams="${{list_of_bams[@]:1}}"
 
         featureCounts -f -F SAF -R CORE -s 1 -T {threads} -O -a {input[0]} -o {output[0]} $list_of_bams
 
         sed '1d' {output[0]} > tmp_counts
         mv tmp_counts {output[0]}
-
-        while IFS=',' read bam_name sample_name
-        do
-        echo "sed -i.bak 's|$bam_name|$sample_name|g' {output[0]}" >> rename.sh
-        done < {input[1]}
-
-        bash rename.sh
-
-        rm rename.sh
         """
 
 rule counts_correction:
     input:
-        expand("bed_files/{find_unique_pos}", find_unique_pos=config["find_unique_pos"])[2],
-        expand("counts/{find_unique_pos}.tst", find_unique_pos=config["featurecounts"])[1]
+        expand("bed_files/{finds_unique_positions}", finds_unique_positions=config["finds_unique_positions"])[2],
+        expand("counts/{finds_unique_positions}.tst", finds_unique_positions=config["featurecounts"])[1]
     output:
         expand("bed_files/{counts_correction}", counts_correction=config["counts_correction"])[0],
         expand("counts/{counts_correction}", counts_correction=config["counts_correction"])[1]
     shell:
         "Rscript counts_correction.R --out1 {output[0]} --out2 {output[1]} {input[0]} {input[1]};"
 
-rule marks_with_msp_bigger_than_0:
+rule selects_true_counts:
     input:
         expand("counts/{counts_correction}", counts_correction=config["counts_correction"])[1]
+    params:
+        samples_from_ms_insenstive=expand("{samples_from_ms_insenstive}", samples_from_ms_insenstive=config["samples_from_ms_insenstive"]),
     output:
         expand("true_sites/{output_bigger_than_0}.txt", output_bigger_than_0=config["marks_with_msp_outputs"])
     shell:
-        "Rscript marks_with_msp_bigger_than_0.R --out1 {output[0]} {input[0]}"
+        """
+        Rscript selects_true_counts.R --ms_insensitive_samples {params.samples_from_ms_insenstive} --out1 {output[0]} {input[0]}
+        """
 
 rule sampled_site_position:
     input:
         expand("bed_files/{counts_correction}", counts_correction=config["counts_correction"])[0],
-        "msp_pst_sites_positions_sorted.bed",
+        "enzymes_positions_of_RE_sites_sorted.bed",
         expand("counts/{counts_correction}", counts_correction=config["counts_correction"])[1]
     output:
         expand("position_of_the_sampled_sites/{methylatio_site_output}.bed", methylatio_site_output=config["sampled_site_position"])[0],
@@ -543,95 +462,55 @@ rule sampled_site_position_part_2:
 
         """
 
-## This rule seems to have dependences that need to be generalized.
-rule intersect_marks:
+rule executes_edgeR:
     input:
-        expand("position_of_the_sampled_sites/{methylatio_site_output}_merged.bed", methylatio_site_output=config["sampled_site_position"])[1],
-        expand("true_sites/{output_bigger_than_0}.txt", output_bigger_than_0=config["marks_with_msp_outputs"])
-    params:
-        names=expand("{intersect_params}", intersect_params=config["clones_names"]),
-        tissue=expand("{intersect_params}", intersect_params=config["tissues_g4"]),
-        enzyme=expand("{intersect_params}", intersect_params=config["enzymes"]),
-        prefix=expand("{intersect_params}", intersect_params=config["intersect_marks_params"]["prefix"]),
-        grupos_intersect=expand("true_sites/{output_bigger_than_0}.txt", output_bigger_than_0=config["marks_with_msp_outputs"])
-    output:
-        expand("{intersect_params}_intersect_marks.txt", intersect_params=config["intersect_marks_params"]["prefix"])
-    script:
-        "intersect_marks.R"
-
-rule edgeR_with_DArTCounts:
-    input:
-        expand("{intersect_params}_intersect_marks.txt", intersect_params=config["intersect_marks_params"]["prefix"]),
+        expand("true_sites/{output_bigger_than_0}.txt", output_bigger_than_0=config["marks_with_msp_outputs"]),
         expand("{methylatio_site_output}.csv", methylatio_site_output=config["sampled_site_position"])[2],
     params:
-        groups=expand("{edgeR_params}", edgeR_params=config["edgeR_with_DArTCounts_params"]["groups"]),
+        samples_from_ms_insenstive=expand("{samples_from_ms_insenstive}", samples_from_ms_insenstive=config["samples_from_ms_insenstive"]),
+        Grouping_var=expand("{Grouping_var}", Grouping_var=config["Grouping_var"]),
         prefix=expand("{edgeR_params}", edgeR_params=config["edgeR_with_DArTCounts_params"]["prefix"]),
-        genotypes=expand("{edgeR_params}", edgeR_params=config["clones_names"]),
-        tissues=expand("{edgeR_params}", edgeR_params=config["tissues_g4"]),
-        sep_into=expand("{edgeR_params}", edgeR_params=config["edgeR_with_DArTCounts_params"]["sep_into"]),
-        subset_model=expand("{edgeR_params}", edgeR_params=config["edgeR_with_DArTCounts_params"]["subset_model"]),
-        no_bio_rep=expand("{edgeR_params}", edgeR_params=config["edgeR_with_DArTCounts_params"]["no_bio_rep"]),
-        dispersion=expand("{edgeR_params}", edgeR_params=config["edgeR_with_DArTCounts_params"]["dispersion"]),
         min_msp=expand("{edgeR_params}", edgeR_params=config["edgeR_with_DArTCounts_params"]["min_msp"]),
         fdr=expand("{edgeR_params}", edgeR_params=config["edgeR_with_DArTCounts_params"]["fdr"]),
         log_fold_change=expand("{edgeR_params}", edgeR_params=config["edgeR_with_DArTCounts_params"]["log_fold_change"]),
-        filtration_mode=expand("{edgeR_params}", edgeR_params=config["edgeR_with_DArTCounts_params"]["filter"]),
-        number_of_tec_rep=expand("{edgeR_params}", edgeR_params=config["edgeR_with_DArTCounts_params"]["number_of_tec_rep"]),
-        samples_with_tec_reps=expand("{edgeR_params}", edgeR_params=config["edgeR_with_DArTCounts_params"]["samples_with_tec_reps"]),
-        samples_without_rep=expand("{edgeR_params}", edgeR_params=config["edgeR_with_DArTCounts_params"]["samples_without_rep"])
     output:
-        expand("{prefix_edgeR}{groups}_DE_stats.txt", prefix_edgeR=config["edgeR_with_DArTCounts_params"]["prefix"], groups=config["edgeR_with_DArTCounts_params"]["groups"]),
-        expand("{prefix_edgeR}{groups}_DE_marks.txt", prefix_edgeR=config["edgeR_with_DArTCounts_params"]["prefix"], groups=config["edgeR_with_DArTCounts_params"]["groups"]),
-        expand("{prefix_edgeR}{groups}_dispersions.txt", prefix_edgeR=config["edgeR_with_DArTCounts_params"]["prefix"], groups=config["edgeR_with_DArTCounts_params"]["groups"]),
-        expand("BRASUZ1_{tissue}_msp_bigger_than_threshold.txt", tissue=config["tissues_g4"])
+        expand("{prefix_edgeR}_DE_marks.txt", prefix_edgeR=config["edgeR_with_DArTCounts_params"]["prefix"], groups=config["edgeR_with_DArTCounts_params"]),
     script:
-        "edgeR_with_DArTCounts.R"
+        "new_edgeR_with_DArTCounts.R"
 
-rule DEseq2_with_DArTCounts:
+rule executes_DEseq2:
     input:
-        expand("{intersect_params}_intersect_marks.txt", intersect_params=config["intersect_marks_params"]["prefix"]),
+        expand("true_sites/{output_bigger_than_0}.txt", output_bigger_than_0=config["marks_with_msp_outputs"]),
         expand("{methylatio_site_output}.csv", methylatio_site_output=config["sampled_site_position"])[2]
     params:
-        groups=expand("{deseq_params}", deseq_params=config["DEseq2_with_DArTCounts_params"]["groups"]),
+        samples_from_ms_insenstive=expand("{samples_from_ms_insenstive}", samples_from_ms_insenstive=config["samples_from_ms_insenstive"]),
+        Grouping_var=expand("{Grouping_var}", Grouping_var=config["Grouping_var"]),
         prefix=expand("{deseq_params}", deseq_params=config["DEseq2_with_DArTCounts_params"]["prefix"]),
-        genotypes=expand("{deseq_params}", deseq_params=config["clones_names"]),
-        tissues=expand("{deseq_params}", deseq_params=config["tissues_g4"]),
-        sep_into=expand("{deseq_params}", deseq_params=config["DEseq2_with_DArTCounts_params"]["sep_into"]),
-        subset_model=expand("{deseq_params}", deseq_params=config["DEseq2_with_DArTCounts_params"]["subset_model"]),
-        no_bio_rep=expand("{deseq_params}", deseq_params=config["DEseq2_with_DArTCounts_params"]["no_bio_rep"]),
-        dispersion=expand("{deseq_params}", deseq_params=config["DEseq2_with_DArTCounts_params"]["dispersion"]),
         min_msp=expand("{deseq_params}", deseq_params=config["DEseq2_with_DArTCounts_params"]["min_msp"]),
         fdr=expand("{deseq_params}", deseq_params=config["DEseq2_with_DArTCounts_params"]["fdr"]),
         log_fold_change=expand("{deseq_params}", deseq_params=config["DEseq2_with_DArTCounts_params"]["log_fold_change"]),
-        filtration_mode=expand("{deseq_params}", deseq_params=config["DEseq2_with_DArTCounts_params"]["filter"]),
-        number_of_tec_rep=expand("{deseq_params}", deseq_params=config["DEseq2_with_DArTCounts_params"]["number_of_tec_rep"]),
-        samples_with_tec_reps=expand("{deseq_params}", deseq_params=config["DEseq2_with_DArTCounts_params"]["samples_with_tec_reps"]),
-        samples_without_rep=expand("{deseq_params}", deseq_params=config["DEseq2_with_DArTCounts_params"]["samples_without_rep"])
     output:
-        expand("{prefix_deseq}{groups}_DE_stats.txt", prefix_deseq=config["DEseq2_with_DArTCounts_params"]["prefix"], groups=config["DEseq2_with_DArTCounts_params"]["groups"]),
-        expand("{prefix_deseq}{groups}_DE_marks.txt", prefix_deseq=config["DEseq2_with_DArTCounts_params"]["prefix"], groups=config["DEseq2_with_DArTCounts_params"]["groups"])
+        expand("{prefix_deseq}_DE_marks.txt", prefix_deseq=config["DEseq2_with_DArTCounts_params"]["prefix"])
     script:
-        "deseq2_with_DArTCounts.R"
+        "new_deseq2_with_DArTCounts.R"
 
-rule edger_vs_deseq:
+rule compares_edgeR_and_DEseq2:
     input:
-        expand("{prefix_edgeR}{groups}_DE_marks.txt", prefix_edgeR=config["edgeR_with_DArTCounts_params"]["prefix"], groups=config["edgeR_with_DArTCounts_params"]["groups"]),
-        expand("{prefix_deseq}{groups}_DE_marks.txt", prefix_deseq=config["DEseq2_with_DArTCounts_params"]["prefix"], groups=config["DEseq2_with_DArTCounts_params"]["groups"]),
+        expand("{prefix_edgeR}_DE_marks.txt", prefix_edgeR=config["edgeR_with_DArTCounts_params"]["prefix"]),
+        expand("{prefix_deseq}_DE_marks.txt", prefix_deseq=config["DEseq2_with_DArTCounts_params"]["prefix"]),
         expand("position_of_the_sampled_sites/{methylatio_site_output}_merged.bed", methylatio_site_output=config["sampled_site_position"])[1]
     output:
-        expand("edger_vs_deseq/{edger_vs_deseq2}", edger_vs_deseq2=config["edger_vs_deseq2_output"])[0],
-        expand("edger_vs_deseq/{edger_vs_deseq2}", edger_vs_deseq2=config["edger_vs_deseq2_output"])[1],
-        expand("images/edger_vs_deseq/{edger_vs_deseq2}", edger_vs_deseq2=config["edger_vs_deseq2_output"])[2]
+        expand("compares_edgeR_and_DEseq2/{edger_vs_deseq2}", edger_vs_deseq2=config["edger_vs_deseq2_output"])[0],
+        expand("compares_edgeR_and_DEseq2/{edger_vs_deseq2}", edger_vs_deseq2=config["edger_vs_deseq2_output"])[1],
+        expand("images/compares_edgeR_and_DEseq2/{edger_vs_deseq2}", edger_vs_deseq2=config["edger_vs_deseq2_output"])[2]
     script:
         "edger_vs_deseq2.R"
 
-rule make_bed_methylated_sites:
+rule generated_bed_file_of_DNA_methylations:
     input:
         expand("position_of_the_sampled_sites/{methylatio_site_output}_merged.bed", methylatio_site_output=config["sampled_site_position"])[1],
-        expand("edger_vs_deseq/{edger_vs_deseq2}", edger_vs_deseq2=config["edger_vs_deseq2_output"])[1]
+        expand("compares_edgeR_and_DEseq2/{edger_vs_deseq2}", edger_vs_deseq2=config["edger_vs_deseq2_output"])[1]
     output:
-        expand("methylated_sites/{make_bed_methylated_sites}", make_bed_methylated_sites=config["make_bed_methylated_sites"])
+        expand("methylated_sites/{generated_bed_file_of_DNA_methylations}", generated_bed_file_of_DNA_methylations=config["generated_bed_file_of_DNA_methylations"])
     script:
-        "make_bed_methylated_sites.R"
-
-## Need to add a rule that provide a presence/absence summary of the methylations detected per sample
+        "generated_bed_file_of_DNA_methylations.R"
