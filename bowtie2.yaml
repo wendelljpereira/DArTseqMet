@@ -6,19 +6,21 @@ channels:
 dependencies:
   - bowtie2=2.3.5.1=py27h2dec4b4_0
   - ca-certificates=2022.6.15=h033912b_0
-  - certifi=2020.6.20=pyhd3eb1b0_3
-  - libcxx=14.0.5=hce7ea42_1
-  - libffi=3.3=h046ec9c_2
-  - libzlib=1.2.12=hfe4f2af_1
+  - certifi=2019.11.28=py27h8c360ce_1
+  - libcxx=14.0.6=hce7ea42_0
+  - libffi=3.2.1=hb1e8313_1007
+  - libzlib=1.2.12=hfe4f2af_2
   - ncurses=6.3=h96cf925_1
+  - openssl=1.1.1q=hfe4f2af_0
   - perl=5.32.1=2_h0d85af4_perl5
   - pip=20.1.1=pyh9f0ad1d_0
-  - python=2.7.18=h47d645e_1
+  - python=2.7.15=h8e446fc_1011_cpython
+  - python_abi=2.7=1_cp27m
   - readline=8.1.2=h3899abd_0
   - setuptools=44.0.0=py27_0
-  - sqlite=3.38.5=hd9f0692_0
-  - tbb=2020.3=h879752b_0
+  - sqlite=3.39.2=hd9f0692_0
+  - tbb=2020.2=h940c156_4
   - tk=8.6.12=h5dbffcc_0
   - wheel=0.37.1=pyhd8ed1ab_0
-  - zlib=1.2.12=hfe4f2af_1
+  - zlib=1.2.12=hfe4f2af_2
 prefix: /Users/wendellpereira/opt/anaconda3/envs/bowtie2_env
