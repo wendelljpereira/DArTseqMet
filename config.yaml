@@ -2,11 +2,11 @@
 ## User modifiable configuration options #
 ##########################################
 
-# Set the number of availables cores for the analysis.
+# Set the number of available cores for the analysis.
 
 available_cores: 7
 
-# List the FASTQ files containing the data. Note that the files must have the extesion ".FASTQ", i.e., "sample_1.FASTQ".
+# List the FASTQ files containing the data. Note that the files must have the extension ".FASTQ", i.e., "sample_1.FASTQ".
 
 fastq:
     [
@@ -30,11 +30,11 @@ fastq:
     "916205"
     ]
 
-# List each FASTQ file (must match the above list) and the common name of the sample. The common name will be used to identify the replicates during the differential expression analysis. The format needs to folow the example below, where all samples are listed in a string and each sample is separated by commas. Use "-" to separate FASTQ file ID from the common name and do not use "-" as part of the sample name.
+# List each FASTQ file (must match the above list) and the common name of the sample. The common name will be used to identify the replicates during the differential expression analysis. The format needs to follow the example below, where all samples are listed in a string, and each sample is separated by commas. Use "-" to separate the FASTQ file ID from the common name, and do not use "-" as part of the sample name.
 
 Grouping_var: "915871-adult_leaf,915800-adult_leaf,915824-adult_leaf,916197-adult_leaf,916199-adult_leaf,916201-adult_leaf,915882-juvenile_leaf,915812-juvenile_leaf,915836-juvenile_leaf,916198-juvenile_leaf,916200-juvenile_leaf,916202-juvenile_leaf,915883-xylem,915848-xylem,915860-xylem,916203-xylem,916204-xylem,916205-xylem"
 
-# From the files listed above, enumarate those produced by the libraries containing the methylation-INSENSITIVE restriction enzyme (i.e, MspI). Must be a string of FASTQ IDs separated by commas.
+# From the files listed above, enumerate those produced by the libraries containing the methylation-INSENSITIVE restriction enzyme (i.e., MspI). It must be a string of FASTQ IDs separated by commas.
 
 samples_from_ms_insenstive: "916197,916199,916201,916198,916200,916202,916203,916204,916205"
 
@@ -50,16 +50,16 @@ barcodes_files:
     "barcodes_C9C2CANXX_8.txt"
     ]
 
-# Sequence of Illummina adapters used during the library preparation in the FASTA format and ended with the extension ".fa", i.e., "adapters.fa". This file is used by trimmomatic to identify and remove adaptors that may be part of the sequencing reads.
+# Sequence of Illumina adapters used during the library preparation in the FASTA format and ended with the extension ".fa", i.e., "adapters.fa". This file is used by trimmomatic to identify and remove adaptors that may be part of the sequencing reads.
 
 adapters_file: adapters.fa
 
 # Sequence of the restriction site of each restriction enzyme in the FASTA format and ended with the extension ".fa", i.e., "restriction_sites.fa"
 restriction_site_sequences: "mspI_pstI_sites.fa"
 
-########################################
+###############################
 ## Options that should not be altered ## 
-########################################
+###############################
 
 combining_samples: "all_samples_without_barcodes_and_adapters.fq"
 combine_bam: all_samples.bam
