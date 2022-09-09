@@ -1,9 +1,10 @@
-name: DArTseqMet
+name: dartseqmet
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
+  - snakemake-minimal
   - r=3.5.1
   - r-docopt
   - bioconductor-biostrings  
@@ -12,3 +13,4 @@ dependencies:
   - bedtools
   - subread
   - fastqc
+  - bowtie2
