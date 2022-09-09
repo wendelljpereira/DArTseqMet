@@ -14,7 +14,7 @@ This computational protocol is designed to be executed using the [Snakemake work
 
 <!-- ### Simple installation
 
-Here we provide a simplified installation using few steps.
+Here we provide a simplified installation using a few steps.
 
 1. Conda/bioconda
 
@@ -43,13 +43,13 @@ conda install -n base -c conda-forge mamba
 
 Conda/mamba allows you to create different environments containing files, packages, and their dependencies that will not interact with other environments. Therefore, creating a new environment to contain the dependencies to execute this workflow is advantageous. For more information about conda and conda environments, please visit: https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html
 
-Here, we create an environment named DArTseqMet while also installing Snakemake within it. Since the workflow uses bowtie2, which depends on python2.7, we need to create a second environment that can be used by Snakemake to avoid conflits between software that depends on different versions of Python. 
+Here, we create an environment named DArTseqMet while also installing Snakemake within it. Since the workflow uses bowtie2, which depends on python2.7, we need to create a second environment that can be used by Snakemake to avoid conflicts between software that relies on different versions of Python. 
 
 ```sh
 conda activate base
 mamba create -c conda-forge -c bioconda -n DArTseqMet snakemake r-base -y
 
-# Here we create a new environment for bowtie two, then export it as a yaml file that can be called in the rules of the worflow that depend on it.
+# Here, we create a new environment for bowtie two, then export it as a yaml file that can be called in the rules of the workflow that depend on it.
 mamba create -c conda-forge -c bioconda -n bowtie2_env python=2.7 bowtie2
 
 conda activate bowtie2_env
@@ -80,7 +80,7 @@ We also need to install some R packages.
 mamba install -c conda-forge r-docopt r-tidyverse r-data.table r-gdata r-gridextra  r-essentials 
 ```
 
-Unfortunately, mamba does not work appropriately when installing Bioconductor packages. Therefore, we install the necessary Bioconductor packages directly in R using the command line below. 
+Unfortunately, mamba does not work when installing Bioconductor packages. Therefore, we install the necessary Bioconductor packages directly in R using the command line below. 
 
 ```sh
 R -e "install.packages('BiocManager', repos='http://cran.us.r-project.org'); library('BiocManager'); BiocManager::install('DESeq2'); BiocManager::install('biostrings'); BiocManager::install('edgeR'); BiocManager::install('VennDiagram')"
@@ -92,11 +92,11 @@ R -e "install.packages('BiocManager', repos='http://cran.us.r-project.org'); lib
 
 ### Adjusting the config.yaml file.
 
-Users need to adjust the config.yaml file to inform samples names and other parameters that are required for the analyses. Note that some files are required to be in a specific format. Files format and other restrictions are listed on the file config.yaml.
+Users need to adjust the config.yaml file to inform samples names and other parameters required for the analyses. Note that some files are required to be in a specific format. Files format and other restrictions are listed on the file config.yaml.
 
 ### Executing the workflow
 
-After adjusting the config.yaml file, the execution of the worflow is as simple as running one command line.
+After adjusting the config.yaml file, the execution of the workflow is as simple as running one command line.
 
 ```sh
 snakemake -p -c 7 --use-conda all
