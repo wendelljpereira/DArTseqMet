@@ -35,3 +35,5 @@ test_using_unknown_genes_performed_on_A17_only/*
 *.bam
 multiple_bed/*
 counts/*
+*.saf
+*.tst
