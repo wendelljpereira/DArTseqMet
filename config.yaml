@@ -1,77 +1,68 @@
-#
-available_cores: 7
-
 ##########################################
 ## User modifiable configuration options #
 ##########################################
 
-# The fastq files of all samples
-# (will be used to define the sequenced fragments sampled by technique)
+# Set the number of availables cores for the analysis.
+
+available_cores: 7
+
+# List the FASTQ files containing the data. Note that the files must have the extesion ".FASTQ", i.e., "sample_1.FASTQ".
+
 fastq:
     [
     "915800",
-    "915812",
     "915824",
+    "915871",
+    "916197",
+    "916199",
+    "916201",
+    "915812",
     "915836",
+    "915882",
+    "916198",
+    "916200",
+    "916202",
     "915848",
     "915860",
-    "915871",
-    "915882",
     "915883",
-    "916197",
-    "916198",
-    "916199",
-    "916200",
-    "916201",
-    "916202",
     "916203",
     "916204",
     "916205"
     ]
 
-# Full path to reference genome. It should be softmasked
+# List each FASTQ file (must match the above list) and the common name of the sample. The common name will be used to identify the replicates during the differential expression analysis. The format needs to folow the example below, where all samples are listed in a string and each sample is separated by commas. Use "-" to separate FASTQ file ID from the common name and do not use "-" as part of the sample name.
+
+Grouping_var: "915871-adult_leaf,915800-adult_leaf,915824-adult_leaf,916197-adult_leaf,916199-adult_leaf,916201-adult_leaf,915882-juvenile_leaf,915812-juvenile_leaf,915836-juvenile_leaf,916198-juvenile_leaf,916200-juvenile_leaf,916202-juvenile_leaf,915883-xylem,915848-xylem,915860-xylem,916203-xylem,916204-xylem,916205-xylem"
+
+# From the files listed above, enumarate those produced by the libraries containing the methylation-INSENSITIVE restriction enzyme (i.e, MspI). Must be a string of FASTQ IDs separated by commas.
+
+samples_from_ms_insenstive: "916197,916199,916201,916198,916200,916202,916203,916204,916205"
+
+# Full path to reference genome. The reference genome must be in the FASTA format and ended with the extension ".fa", i.e., "genome.fa". The reference genome is expected to be softmasked to mark repetitive elements.
+
 reference_genome: "Egrandis_297_v2.0.softmasked.fa"
 
-# Files containing the barcodes per sample used by DArT during the library preparation. 
-# Those files are used by trimmomatic to remove any barcode that remained on the reads.
+# Files containing the barcodes per sample used by DArT during the library preparation. Those files should be provided by the company and are used by trimmomatic to identify and remove barcodes that may be part of the sequencing reads.
+
 barcodes_files: 
     [
     "barcodes_C9C2CANXX_2.txt",
     "barcodes_C9C2CANXX_8.txt"
     ]
 
-# sequence of the ilummina adapters used during the library preparation. Those files are used by trimmomatic to remove any adaptor that remained on the reads.
+# Sequence of Illummina adapters used during the library preparation in the FASTA format and ended with the extension ".fa", i.e., "adapters.fa". This file is used by trimmomatic to identify and remove adaptors that may be part of the sequencing reads.
+
 adapters_file: adapters.fa
 
+# Sequence of the restriction site of each restriction enzyme in the FASTA format and ended with the extension ".fa", i.e., "restriction_sites.fa"
+restriction_site_sequences: "mspI_pstI_sites.fa"
 
-### Those are required for the intersection rule. I am not sure if it would be easily adaptable to other datasets.
-clones_names:
-    [
-    "BRASUZ1"
-    ]
+########################################
+## Options that should not be altered ## 
+########################################
 
-tissues_g4:
-    [
-    "leaf.ad",
-    "leaf.juv",
-    "wood"
-    ]
-
-# Methylation-sensitive enzyme pairs
-enzymes:
-    [
-    "ms",
-    "hp"
-    ]
-
-
-
-###################### DO NOT CHANGE #######################
-
-
-combine_samples: "all_samples_without_barcodes_and_adapters.fq"
+combining_samples: "all_samples_without_barcodes_and_adapters.fq"
 combine_bam: all_samples.bam
-
 
 mapping:
     fastq:
@@ -99,16 +90,15 @@ mapping:
 bam_to_bed:
     bed_name: all_samples.bed
 
-# How this file was created the first time? It needs to be generate during the analysis by using the genome and the restriction sites
-enzymes_sites: msp_pst_sites_positions_sorted.bed
+position_of_RE_sites: "enzymes_positions_of_RE_sites_sorted.bed"
 
-sample_site_definition:
+defines_the_position_of_sampled_sites:
     [
     "enz_sites_sample_reads_clusters.bed",
     "enz_sites_sample_reads_clusters_of_interest.bed"
     ]
 
-find_unique_pos:
+finds_unique_positions:
     [
     "good_clusters.bed",
     "clusters_without_pstI.bed",
@@ -120,9 +110,6 @@ featurecounts:
     "msdartseq_positions.saf",
     "msdartseq_counts"
     ]
-
-# This file makes the conection between the sample name and the common name of the samples and needs to be generate by the user
-names_correspondence: bam_to_samples_names.csv
 
 counts_correction:
     [
@@ -141,69 +128,23 @@ sampled_site_position:
     "msdartseq_methylation_sites_of_sequenced_fragments",
     "ms_dartseq_counts"
     ]
-
-# find_methylation_site_position_inputs_p1:
-#     [
-#     "BSgenome.Egrandis.JGI.297_2.0.tar.gz"
-#     ]
-
-# find_methylation_site_position_inputs_p2:
-#     [
-#     "mspI_pstI_sites.fa"
-#     ]
+  
 find_methylation_site_position_outputs_p2:
     [
-   # "msp_pst_sites_positions",
     "mspI_sites"
     ]
 
-
-intersect_marks_params:
-    prefix: ["sites_on_the_intersection/MS-DArT"]
-    grupos_intersect: ["true_sites/MS-DArT_marks_with_counts_bigger_than_0.txt"]
-intersect_marks_inputs_g4:
-    [
-    "AEC144_unic_mapped_dart_marks_non_overlap",
-    "CNB10_unic_mapped_dart_marks_non_overlap",
-    "FIB6075_unic_mapped_dart_marks_non_overlap",
-    "GG100_unic_mapped_dart_marks_non_overlap",
-    "VER361_unic_mapped_dart_marks_non_overlap"
-    ]
-
 edgeR_with_DArTCounts_params:
-    groups: ["4"]
     prefix: edgeR_results/edger_group
-    sep_into: 3
-    subset_model: "intersect"
-    no_bio_rep: "FALSE"
-    dispersion: "NULL"
     min_msp: 3
     fdr: 0.05
     log_fold_change: 2
-    filter: "posit"
-    number_of_tec_rep: 1
-    samples_with_tec_reps:
-        ["empty"]
-    samples_without_rep:
-        ["empty"]
 
 DEseq2_with_DArTCounts_params:
-    groups: ["4"]
     prefix: DEseq2_results/deseq_group
-    sep_into: 3
-    subset_model: "intersect"
-    no_bio_rep: "FALSE"
-    dispersion: "NULL"
     min_msp: 3
-    intersect_file: "group_intersect_marks.txt"
     fdr: 0.05
     log_fold_change: 2
-    filter: "posit"
-    number_of_tec_rep: 1
-    samples_with_tec_reps:
-        ["empty"]
-    samples_without_rep:
-        ["empty"]
 
 edger_vs_deseq2_output:
     [
@@ -212,8 +153,12 @@ edger_vs_deseq2_output:
     "edgeR_vs_DEseq2_methylated_sites.svg"
     ]
 
-make_bed_methylated_sites:
+generated_bed_file_of_DNA_methylations:
     [
     "methylated_sites.bed",
     "methylated_sites_only_plus.bed"
     ]
+
+intersect_marks_params:
+    prefix: ["sites_on_the_intersection/MS-DArT"]
+    grupos_intersect: ["true_sites/MS-DArT_marks_with_counts_bigger_than_0.txt"]
